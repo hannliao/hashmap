@@ -3,7 +3,8 @@ import LinkedList from './linked-list.js';
 export default class HashMap {
   constructor(capacity = 16) {
     this.capacity = capacity;
-    this.table = new Array(16).fill(null);
+    this.loadFactor = 0.75;
+    this.table = new Array(this.capacity).fill(null);
   }
 
   hash(key) {
@@ -24,21 +25,22 @@ export default class HashMap {
       throw new Error('Trying to access index out of bound');
     }
 
+    if (this.length() >= this.capacity * this.loadFactor) {
+      const entries = this.entries();
+      this.capacity *= 2;
+      this.table = new Array(this.capacity).fill(null);
+
+      entries.forEach((pair) => {
+        this.set(pair[0], pair[1]);
+      });
+    }
+
     if (bucket == null) {
       bucket = new LinkedList();
       this.table[index] = bucket;
       bucket.prepend([key, value]);
     } else {
-      let current = bucket.getHead();
-      let found = false;
-      while (current != null) {
-        if (current.value[0] === key) {
-          current.value[1] = value;
-          found = true;
-          break;
-        }
-        current = current.next;
-      }
+      let found = bucket.replace(key, value);
       if (!found) {
         bucket.prepend([key, value]);
       }

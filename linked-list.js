@@ -78,6 +78,18 @@ class LinkedList {
     return arr;
   }
 
+  replace(key, value) {
+    let current = this.head;
+    while (current != null) {
+      if (current.value[0] === key) {
+        current.value[1] = value;
+        return true;
+      }
+      current = current.next;
+    }
+    return false;
+  }
+
   removeAt(index) {
     let current = this.head;
     let prev = null;
