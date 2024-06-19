@@ -62,47 +62,44 @@ class LinkedList {
     return null;
   }
 
-  get(type) {
-    let arr = [];
+  getAll(type) {
+    let all = [];
     let current = this.head;
     while (current !== null) {
       if (type == 'keys') {
-        arr.push(current.value[0]);
+        all.push(current.value[0]);
       } else if (type == 'values') {
-        arr.push(current.value[1]);
+        all.push(current.value[1]);
       } else {
-        arr.push(current.value);
+        all.push(current.value);
       }
       current = current.next;
     }
-    return arr;
+    return all;
   }
 
-  replace(key, value) {
+  setNode(key, value) {
     let current = this.head;
     while (current != null) {
       if (current.value[0] === key) {
         current.value[1] = value;
-        return true;
+        return;
       }
       current = current.next;
     }
-    return false;
+    this.prepend(key, value);
   }
 
   removeAt(index) {
     let current = this.head;
     let prev = null;
-    if (current === null) {
-      return;
-    } else {
-      for (let i = 0; i < index; i++) {
-        prev = current;
-        current = current.next;
-        if (current === null) return;
-      }
-      prev.next = current.next;
+    if (!current) return;
+    for (let i = 0; i < index; i++) {
+      prev = current;
+      current = current.next;
+      if (current === null) return;
     }
+    prev.next = current.next;
   }
 }
 
