@@ -1,21 +1,16 @@
-class Node {
-  constructor(value = null, next = null) {
-    this.value = value;
-    this.next = next;
-  }
-}
+import Node from './node.js';
 
 class LinkedList {
   constructor() {
     this.head = null;
   }
 
-  prepend(value) {
+  prepend(key, value) {
     let temp = null;
     if (this.head != null) {
       temp = this.head;
     }
-    this.head = new Node(value);
+    this.head = new Node(key, value);
     this.head.next = temp;
   }
 
@@ -35,13 +30,13 @@ class LinkedList {
       current = current.next;
       if (current === null) return null;
     }
-    return current.value[1];
+    return current.value;
   }
 
   contains(key) {
     let current = this.head;
     while (current != null) {
-      if (current.value[0] === key) {
+      if (current.key === key) {
         return true;
       }
       current = current.next;
@@ -53,7 +48,7 @@ class LinkedList {
     let index = 0;
     let current = this.head;
     while (current != null) {
-      if (current.value[0] === key) {
+      if (current.key === key) {
         return index;
       }
       current = current.next;
@@ -67,11 +62,11 @@ class LinkedList {
     let current = this.head;
     while (current !== null) {
       if (type == 'keys') {
-        all.push(current.value[0]);
+        all.push(current.key);
       } else if (type == 'values') {
-        all.push(current.value[1]);
-      } else {
         all.push(current.value);
+      } else {
+        all.push([current.key, current.value]);
       }
       current = current.next;
     }
@@ -81,8 +76,8 @@ class LinkedList {
   setNode(key, value) {
     let current = this.head;
     while (current != null) {
-      if (current.value[0] === key) {
-        current.value[1] = value;
+      if (current.key === key) {
+        current.value = value;
         return;
       }
       current = current.next;

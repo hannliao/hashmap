@@ -36,9 +36,9 @@ export default class HashMap {
     if (!bucket) {
       bucket = new LinkedList();
       this.table[index] = bucket;
-      bucket.prepend([key, value]);
+      bucket.prepend(key, value);
     } else {
-      bucket.setNode([key, value]);
+      bucket.setNode(key, value);
     }
   }
 
